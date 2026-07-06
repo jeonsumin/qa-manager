@@ -251,6 +251,18 @@ export default function TicketDetailClient({
         </section>
       )}
 
+      {/* 스크린샷이 없어도 지정 영역 좌표는 확인할 수 있게 텍스트로 노출 */}
+      {ticket.type === "DESIGN" && ticket.region && !screenshot && (
+        <section className="mb-6">
+          <h2 className="mb-2 text-lg font-semibold">지정 영역</h2>
+          <p className="rounded border border-gray-200 bg-white p-3 text-sm">
+            x={ticket.region.x}, y={ticket.region.y}, 너비=
+            {ticket.region.width}, 높이={ticket.region.height} (뷰포트{" "}
+            {ticket.region.viewportWidth}×{ticket.region.viewportHeight} 기준)
+          </p>
+        </section>
+      )}
+
       {/* TO-BE */}
       {ticket.type === "DESIGN" && ticket.toBe && (
         <section className="mb-6">
