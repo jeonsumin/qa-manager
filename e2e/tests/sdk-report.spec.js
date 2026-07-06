@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { API_BASE, createProject, getTickets, getTicketDetail } from './helpers.js';
+import { API_BASE, createProject, getTickets, getTicketDetail, deleteProject } from './helpers.js';
 
 // 시나리오 2: SDK 로그/캡처 전달
 test('demo에서 BUG 리포트 제출 → 로그/스크린샷 전달 확인', async ({ page, request }) => {
   const project = await createProject(request, `sdk-report ${Date.now()}`);
+  try {
 
   // projectKey를 window에 주입 (App.jsx가 window.__QA_PROJECT_KEY__ 우선 사용)
   await page.addInitScript((key) => {
@@ -60,4 +61,7 @@ test('demo에서 BUG 리포트 제출 → 로그/스크린샷 전달 확인', as
   const attRes = await request.get(`${API_BASE}/api/attachments/${screenshot.id}`);
   expect(attRes.status()).toBe(200);
   expect(attRes.headers()['content-type']).toContain('image/png');
+  } finally {
+    await deleteProject(request, project.id);
+  }
 });

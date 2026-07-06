@@ -1,9 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { createProject, getTickets, getTicketDetail } from './helpers.js';
+import { createProject, getTickets, getTicketDetail, deleteProject } from './helpers.js';
 
 // 시나리오 3: 디자인 QA 좌표
 test('디자인 리포트: 영역 드래그 좌표가 정확히 저장된다', async ({ page, request }) => {
   const project = await createProject(request, `design-region ${Date.now()}`);
+  try {
 
   await page.addInitScript((key) => {
     window.__QA_PROJECT_KEY__ = key;
@@ -65,4 +66,7 @@ test('디자인 리포트: 영역 드래그 좌표가 정확히 저장된다', a
   expect(r.viewportHeight).toBe(800);
 
   expect(detail.toBe).toBe(toBeText);
+  } finally {
+    await deleteProject(request, project.id);
+  }
 });

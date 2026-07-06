@@ -17,14 +17,14 @@ qa/
 
 ## 기술 스택
 
-- dashboard: Next.js 15 (App Router, TypeScript), Prisma + SQLite (`dashboard/prisma/dev.db`), Tailwind CSS
+- dashboard: Next.js 15 (App Router, TypeScript), Prisma + MySQL 8 (루트 `docker-compose.yml`, `mysql://qa:qa@localhost:3306/qa`), Tailwind CSS
 - sdk: React 18+ 호환, TypeScript 없이 순수 JSX(.jsx) — 호스트 프로젝트 제약 최소화. 스크린샷은 `html2canvas` (peer/직접 의존성)
 - sdk-single: 의존성 0. html2canvas를 CDN에서 동적 `<script>` 로드, 실패 시 스크린샷 없이 진행
 - demo: Vite + React, `sdk`를 상대 경로로 import
 - e2e: Playwright (chromium)
 - 패키지 매니저: npm. 워크스페이스 없이 각 디렉토리 독립 package.json
 
-## 데이터 모델 (Prisma, SQLite)
+## 데이터 모델 (Prisma, MySQL)
 
 ```prisma
 model Project {

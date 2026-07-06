@@ -27,3 +27,14 @@ export async function getTicketDetail(request, ticketId) {
   }
   return res.json();
 }
+
+// 테스트가 생성한 프로젝트를 정리한다(티켓/첨부/코멘트는 Cascade 삭제).
+// 정리 실패가 테스트 결과를 좌우하지 않도록 예외를 삼킨다.
+export async function deleteProject(request, projectId) {
+  if (!projectId) return;
+  try {
+    await request.delete(`${API_BASE}/api/projects/${projectId}`);
+  } catch {
+    // 정리 실패는 무시 (다음 실행에 영향 없음)
+  }
+}

@@ -5,12 +5,18 @@
 ## 실행
 
 ```bash
-# 대시보드 (API 서버 겸용, :3000)
+# 1) MySQL 기동 (루트에서). healthy 될 때까지 대기
+docker compose up -d
+
+# 2) 대시보드 (API 서버 겸용, :3000)
 cd dashboard && npm install && npx prisma db push && npm run dev
 
 # 데모 호스트 앱 (:5173) — SDK 동작 확인용
 cd demo && npm install && npm run dev
 ```
+
+DB는 MySQL 8이다(루트 `docker-compose.yml`). 대시보드는 `dashboard/.env`의
+`DATABASE_URL`(기본 `mysql://qa:qa@localhost:3306/qa`, `.env.example` 참조)로 접속한다.
 
 대시보드에서 프로젝트를 만들면 연동 키(`qa_...`)가 발급된다. 데모 앱은
 `window.__QA_PROJECT_KEY__` 또는 `VITE_QA_PROJECT_KEY` 환경변수로 키를 받는다.

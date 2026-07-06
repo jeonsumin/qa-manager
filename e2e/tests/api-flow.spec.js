@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { API_BASE, createProject, getTickets } from './helpers.js';
+import { API_BASE, createProject, getTickets, deleteProject } from './helpers.js';
 
 // 시나리오 1: 프로젝트 발급 ~ 연동 흐름 (순수 API)
 test('프로젝트 생성 → ingest POST → tickets에 노출 → 잘못된 키 401', async ({ request }) => {
   // 1) 프로젝트 생성 → projectKey 획득
   const project = await createProject(request, `api-flow ${Date.now()}`);
+  try {
   expect(project.id).toBeTruthy();
   expect(project.projectKey).toMatch(/^qa_[0-9a-f]{32}$/);
 
@@ -42,4 +43,7 @@ test('프로젝트 생성 → ingest POST → tickets에 노출 → 잘못된 �
   expect(badRes.status()).toBe(401);
   const badBody = await badRes.json();
   expect(badBody.error).toBe('invalid projectKey');
+  } finally {
+    await deleteProject(request, project.id);
+  }
 });

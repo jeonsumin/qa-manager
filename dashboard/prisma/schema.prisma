@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Project {
   id          String   @id @default(cuid())
   name        String
-  description String?
+  description String?  @db.Text
   projectKey  String   @unique
   createdAt   DateTime @default(now())
   tickets     Ticket[]
@@ -21,14 +21,14 @@ model Ticket {
   projectId   String
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   type        String
-  title       String
-  description String   @default("")
+  title       String   @db.VarChar(500)
+  description String   @db.Text
   status      String   @default("NEW")
-  pageUrl     String
+  pageUrl     String   @db.Text
   occurredAt  DateTime
-  logs        String?
-  region      String?
-  toBe        String?
+  logs        String?  @db.LongText
+  region      String?  @db.Text
+  toBe        String?  @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   attachments Attachment[]
@@ -51,6 +51,6 @@ model Comment {
   ticketId  String
   ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   author    String
-  body      String
+  body      String   @db.Text
   createdAt DateTime @default(now())
 }

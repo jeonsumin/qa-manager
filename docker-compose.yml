@@ -1,0 +1,24 @@
+# 로컬 개발용 MySQL. 비밀번호는 개발 편의를 위한 고정값(운영 사용 금지).
+services:
+  mysql:
+    image: mysql:8
+    container_name: qa-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: qa
+      MYSQL_USER: qa
+      MYSQL_PASSWORD: qa
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - qa-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uqa", "-pqa"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+volumes:
+  qa-mysql-data:
