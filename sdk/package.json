@@ -1,0 +1,21 @@
+{
+  "name": "qa-report-sdk",
+  "version": "0.1.0",
+  "description": "QA 리포트 SDK — Context Provider 기반 (순수 JSX, 빌드 스텝 없음)",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1"
+  }
+}
