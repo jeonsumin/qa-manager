@@ -41,8 +41,8 @@ model Ticket {
   projectId   String
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   type        String   // "NETWORK_ERROR" | "BUG" | "DESIGN" | "OTHER"
-  title       String
-  description String   @default("")
+  title       String   @db.VarChar(500)
+  description String   @db.Text        // MySQL TEXT는 default 불가 — ingest에서 "" 보장
   status      String   @default("NEW") // "NEW" | "CONFIRMING" | "FIXING" | "DONE"
   pageUrl     String
   occurredAt  DateTime
